@@ -16,6 +16,6 @@ const patch = init([
 
 const app = document.getElementById("app");
 
-const vnode = h("div", { class: { container: true}}, [h("div", { class: { users: true}} , [h("span", "Hello")])]);
+const vnode = h("div", { class: { container: true } }, [h("div", { class: { users: true } }, [h("ul", { class: { users__list: true } }, [h("li", { class: { users__item: true } }, [h("span", "Hello")])])])]);
 
 patch(app, vnode);

@@ -24,13 +24,20 @@ a {
 }
 
 .container {
-  background-color: black;
   height: 100vh;
   width: 100%;
+  padding-top: 4rem;
+
+  background-color: #f6f6f6;
 }
 
 .users {
-  background-color: black;
-  height: 100vh;
-  width: 100%;
+  background-color: white;
+  min-height: 28rem;
+  width: 17rem;
+  margin: 0 auto;
+
+  -webkit-box-shadow: 0px 0px 13px -5px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 13px -5px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 13px -5px rgba(34, 60, 80, 0.2);
 }
