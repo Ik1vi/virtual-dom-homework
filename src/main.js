@@ -25,31 +25,37 @@ const app = document.getElementById("app");
 
 const userData = [
   {
+    id: 1,
     name: "Alex",
     description: "Knowledge itself is power",
     portrait: alexPortrait,
   },
   {
+    id: 2,
     name: "Barney",
     description: "When an elephant is in trouble, even a frog will kick him",
     portrait: barneyPortrait,
   },
   {
+    id: 3,
     name: "Ron",
     description: "Don’t poison someone whom you can kill with sweets",
     portrait: ronPortrait,
   },
   {
+    id: 4,
     name: "Katy",
     description: "When an elephant is in trouble, even a frog will kick him",
     portrait: katyPortrait,
   },
   {
+    id: 5,
     name: "Mat",
     description: "Don’t poison someone whom you can kill with sweets",
     portrait: matPortrait,
   },
   {
+    id: 6,
     name: "Lusy",
     description: "Don’t poison someone whom you can kill with sweets",
     portrait: lusyPortrait,
@@ -59,14 +65,14 @@ const userData = [
 const vnode = h("div", { class: { container: true } },
   [h("div", { class: { users: true } },
     [h("ul", { class: { users__list: true } },
-      userData.map((d) =>
+      userData.map((user) =>
         h("li", { class: { users__item: true, user: true, } }, [
           h("picture", { class: { user__img: true } },
-            [h("img", { props: { alt: `portrait-${d.name}`, src: d.portrait } },)],
+            [h("img", { props: { alt: `portrait-${user.name}`, src: user.portrait } },)],
           ),
           h("div", { class: { user__info: true } }, [
-            h("h2", { class: { user__name: true } }, d.name),
-            h("p", { class: { user__description: true } }, d.description)],
+            h("h2", { class: { user__name: true } }, user.name),
+            h("p", { class: { user__description: true } }, user.description)],
           )],
         )
       )
