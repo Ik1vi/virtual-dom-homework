@@ -73,11 +73,17 @@ const vnode = h("div", { class: { container: true } },
           h("div", { class: { user__info: true } }, [
             h("h2", { class: { user__name: true } }, user.name),
             h("p", { class: { user__description: true } }, user.description)],
-          )],
-        )
+          ),
+          h("button", { class: { 'user__delete-btn': true, 'delete-btn': true } }, [
+            h("span"),
+            h("span")
+          ])
+        ])
       )
-    )]
-  )]
+    ),
+    h("button", { class: { 'users__add-btn': true, 'add-btn': true } }, '+')
+    ])
+  ]
 );
 
 patch(app, vnode);
