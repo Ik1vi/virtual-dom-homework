@@ -7,6 +7,9 @@ import {
   h,
 } from "snabbdom";
 
+import { watchEffect } from "./reactive";
+import { userData } from "./userData";
+
 const patch = init([
   classModule,
   propsModule,
@@ -14,53 +17,7 @@ const patch = init([
   eventListenersModule,
 ]);
 
-import alexPortrait from './assets/img/1.jpg';
-import barneyPortrait from "./assets/img/2.jpg";
-import ronPortrait from "./assets/img/3.jpg";
-import katyPortrait from './assets/img/4.jpg';
-import lusyPortrait from "./assets/img/5.jpg";
-import matPortrait from "./assets/img/6.jpg";
-
 const app = document.getElementById("app");
-
-const userData = [
-  {
-    id: 1,
-    name: "Alex",
-    description: "Knowledge itself is power",
-    portrait: alexPortrait,
-  },
-  {
-    id: 2,
-    name: "Barney",
-    description: "When an elephant is in trouble, even a frog will kick him",
-    portrait: barneyPortrait,
-  },
-  {
-    id: 3,
-    name: "Ron",
-    description: "Don’t poison someone whom you can kill with sweets",
-    portrait: ronPortrait,
-  },
-  {
-    id: 4,
-    name: "Katy",
-    description: "When an elephant is in trouble, even a frog will kick him",
-    portrait: katyPortrait,
-  },
-  {
-    id: 5,
-    name: "Mat",
-    description: "Don’t poison someone whom you can kill with sweets",
-    portrait: matPortrait,
-  },
-  {
-    id: 6,
-    name: "Lusy",
-    description: "Don’t poison someone whom you can kill with sweets",
-    portrait: lusyPortrait,
-  },
-]
 
 const data = {
   names: [],
@@ -69,18 +26,21 @@ const data = {
   id: 7
 }
 
-const addUser = function() {
+const addUser = function () {
   let nameRandom = data.names[Math.floor(Math.random() * data.names.length)];
   let descriptionRandom = data.descriptions[Math.floor(Math.random() * data.descriptions.length)];
   let portraitRandom = data.portraits[Math.floor(Math.random() * data.portraits.length)];
-  let idRandom = Math.floor((Math.random() * 1000) + data.id);
 
-  userData.push({id: idRandom, name: nameRandom, description: descriptionRandom, portrait: portraitRandom});
+  userData.push({ id: data.id, name: nameRandom, description: descriptionRandom, portrait: portraitRandom });
+  data.id++;
 }
 
-const delUser = function(e) {
-  console.log(e.target.value)
-  // console.log(userData.find((el) => el.id === e.target.id))
+const delUser = function (id) {
+  const index = userData.indexOf(userData.find((user) => user.id === id));
+
+  if (index > -1) {
+    userData.splice(index, 1);
+  }
 }
 
 const getData = userData.map((user) => {
@@ -89,7 +49,7 @@ const getData = userData.map((user) => {
   data.portraits.push(user.portrait);
 });
 
-const vnode = h("div", { class: { container: true } },
+const render = () => h("div", { class: { container: true } },
   [h("div", { class: { users: true } },
     [h("ul", { class: { users__list: true } },
       userData.map((user) =>
@@ -101,7 +61,7 @@ const vnode = h("div", { class: { container: true } },
             h("h2", { class: { user__name: true } }, user.name),
             h("p", { class: { user__description: true } }, user.description)],
           ),
-          h("button", { class: { 'user__delete-btn': true, 'delete-btn': true }, on: { click: delUser } }, [
+          h("button", { class: { 'user__delete-btn': true, 'delete-btn': true }, on: { click: () => delUser(user.id) } }, [
             h("span"),
             h("span")
           ])
@@ -113,4 +73,9 @@ const vnode = h("div", { class: { container: true } },
   ]
 );
 
-patch(app, vnode, getData);
+let previousVnode = null;
+watchEffect(() => {
+  const vnode = render();
+  patch(previousVnode || app, vnode, getData);
+  previousVnode = vnode;
+});
