@@ -20,34 +20,25 @@ const patch = init([
 const app = document.getElementById("app");
 
 const data = {
-  names: [],
-  descriptions: [],
-  portraits: [],
+  users: [...userData],
   id: 7
 }
 
 const addUser = function () {
-  let nameRandom = data.names[Math.floor(Math.random() * data.names.length)];
-  let descriptionRandom = data.descriptions[Math.floor(Math.random() * data.descriptions.length)];
-  let portraitRandom = data.portraits[Math.floor(Math.random() * data.portraits.length)];
+  let randomUser = data.users[Math.floor(Math.random() * data.users.length)];
+  randomUser.id = data.id;
 
-  userData.push({ id: data.id, name: nameRandom, description: descriptionRandom, portrait: portraitRandom });
+  userData.push(randomUser);
   data.id++;
 }
 
 const delUser = function (id) {
-  const index = userData.indexOf(userData.find((user) => user.id === id));
+  const index = userData.findIndex((user) => user.id === id);
 
   if (index > -1) {
     userData.splice(index, 1);
   }
-}
-
-const getData = userData.map((user) => {
-  data.names.push(user.name);
-  data.descriptions.push(user.description);
-  data.portraits.push(user.portrait);
-});
+};
 
 const render = () => h("div", { class: { container: true } },
   [h("div", { class: { users: true } },
@@ -76,6 +67,6 @@ const render = () => h("div", { class: { container: true } },
 let previousVnode = null;
 watchEffect(() => {
   const vnode = render();
-  patch(previousVnode || app, vnode, getData);
+  patch(previousVnode || app, vnode);
   previousVnode = vnode;
 });
